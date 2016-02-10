@@ -31,6 +31,7 @@ g_lfd_camera_dist = 3
 g_lfd_view_num = 20 #[take care!] g_lfd_view_num = elevation_num*azimuth_num
 g_lfd_rendering_thread_num = g_thread_num #[take care!], try to match with #CPU core
 g_lfd_rendering_folder = os.path.abspath(os.path.join(ROOT, 'dataset_lfd_rendering'))
+g_lfd_rendering_filelist = os.path.abspath(os.path.join(g_lfd_rendering_folder, 'filelist.txt'))
 
 ##############################################################################
 # Cropping
