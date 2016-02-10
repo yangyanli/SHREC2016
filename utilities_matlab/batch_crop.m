@@ -27,9 +27,9 @@ parfor i = 1:image_num
     else
         dst_image_file = strrep(src_image_file, src_folder, dst_folder);
         [dst_image_file_folder, ~, ~] = fileparts(dst_image_file);
-        if ~exist(dst_image_file_folder, 'dir')
-            mkdir(dst_image_file_folder);
-        end
+        %if ~exist(dst_image_file_folder, 'dir')
+        %    mkdir(dst_image_file_folder);
+        %end
         imwrite(I, dst_image_file, 'png', 'Alpha', alpha);
     end
     

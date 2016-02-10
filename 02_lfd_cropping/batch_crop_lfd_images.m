@@ -1,4 +1,5 @@
 addpath('../');
+addpath('../utilities_matlab/');
 
 global_variables;
 
@@ -13,7 +14,7 @@ end
 fclose(lfd_rendering_filelist_fid);
 
 image_filelist = cell(count, 1);
-lfd_rendering_filelist_fid = fopen(g_lfd_filelist);
+lfd_rendering_filelist_fid = fopen(g_lfd_rendering_filelist);
 line = fgetl(lfd_rendering_filelist_fid);
 count = 0;
 while ischar(line)
