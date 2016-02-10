@@ -9,6 +9,7 @@
 #------------------------------------------------------------------------------
 
 import os
+g_debug = False
 ROOT = os.path.dirname(os.path.abspath(__file__))
 g_dataset_folder = os.path.abspath(os.path.join(ROOT, 'dataset'))
 g_thread_num = 16
@@ -29,7 +30,7 @@ g_lfd_light_dist = 14.14
 g_lfd_camera_dist = 3
 g_lfd_view_num = 20 #[take care!] g_lfd_view_num = elevation_num*azimuth_num
 g_lfd_rendering_thread_num = g_thread_num #[take care!], try to match with #CPU core
-g_lfd_rendering_folder = os.path.abspath(os.path.join(ROOT, 'lfd_rendering'))
+g_lfd_rendering_folder = os.path.abspath(os.path.join(ROOT, 'dataset_lfd_rendering'))
 
 ##############################################################################
 # Cropping
@@ -37,4 +38,4 @@ g_lfd_rendering_folder = os.path.abspath(os.path.join(ROOT, 'lfd_rendering'))
 # Consider change the default parfor worker number in matlab by following the instructions here:
 # http://www.mathworks.com/help/distcomp/saveprofile.html
 g_lfd_cropping_thread_num = g_thread_num # [take care!], try to match with #CPU core
-g_lfd_cropping_folder = os.path.abspath(os.path.join(ROOT, 'lfd_cropping'))
+g_lfd_cropping_folder = os.path.abspath(os.path.join(ROOT, 'dataset_lfd_cropping'))

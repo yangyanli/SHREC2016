@@ -9,6 +9,7 @@ import math
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(BASE_DIR))
 from global_variables import *
+sys.path.append(os.path.join(os.path.dirname(BASE_DIR), 'utilities_python'))
 from utilities_math import *
  
 shape_file = sys.argv[-2]
@@ -59,10 +60,10 @@ for material_idx in range(len(bpy.data.materials)):
     bpy.data.materials[material_idx].use_raytrace = False
     bpy.data.materials[material_idx].use_mist = False
     bpy.data.materials[material_idx].diffuse_color = (0.6, 0.6, 0.6)
-    bpy.data.materials[material_idx].diffuse_intensity = 0.8
+    bpy.data.materials[material_idx].diffuse_intensity = 0.6
     bpy.data.materials[material_idx].diffuse_shader = 'LAMBERT'
     bpy.data.materials[material_idx].specular_color = (0.2, 0.2, 0.2)
-    bpy.data.materials[material_idx].specular_intensity = 0.6
+    bpy.data.materials[material_idx].specular_intensity = 0.4
     bpy.data.materials[material_idx].specular_hardness = 32
     bpy.data.materials[material_idx].specular_shader = 'PHONG'
     bpy.data.materials[material_idx].emit = 0.0
@@ -87,18 +88,21 @@ bpy.context.scene.world.light_settings.environment_energy = 0.35
 bpy.context.scene.world.light_settings.environment_color = 'PLAIN'
 
 # set point lights
-light_elevation_degs = [-60, 0, 60]
+light_elevation_degs = [-60, 60]
 for i in range(g_lfd_light_num):
     light_azimuth_deg = 360.0/g_lfd_light_num*i
     for light_elevation_deg in light_elevation_degs:
         lx, ly, lz = obj_centened_camera_pos(g_lfd_light_dist, light_azimuth_deg, light_elevation_deg)
         bpy.ops.object.lamp_add(type='POINT', location=(lx, ly, lz))
 for lamp_idx in range(len(bpy.data.lamps)):
-    bpy.data.lamps[lamp_idx].energy = 2.0
+    bpy.data.lamps[lamp_idx].energy = 1.0
 
 for i in range(len(vertices)):
-    azimuth_deg = math.degrees(math.atan(z, x))
-    elevation_deg = math.degrees(math.atan(y, abs(x)))
+    x = vertices[i][0]
+    z = vertices[i][1]
+    y = vertices[i][2]
+    azimuth_deg = math.degrees(math.atan2(z, x))
+    elevation_deg = math.degrees(math.atan2(y, abs(x)))
     theta_deg = 0
     
     lfd_image_file= '%s_%02d.png' % (basename, i)
