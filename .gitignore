@@ -4,3 +4,4 @@ dataset
 __pycache__
 global_variables.m
 *.pyc
+.DS_Store

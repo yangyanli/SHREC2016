@@ -1,37 +1,50 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import os
+import sys
 import bpy
 import math
-import sys
-import os
-import numpy as np
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(BASE_DIR))
 from global_variables import *
 from utilities_math import *
  
-shape_file = sys.argv[-3]
-shape_synset = sys.argv[-2]
-shape_md5 = sys.argv[-1]
-lfd_images_folder = os.path.join(g_lfd_images_folder, shape_synset, shape_md5) 
+shape_file = sys.argv[-2]
+basename = os.path.splitext(os.path.split(shape_file)[-1])[0]
+lfd_images_folder = sys.argv[-1]
 if not os.path.exists(lfd_images_folder):
     os.makedirs(lfd_images_folder)
 
+#http://sarvanz.blogspot.co.il/2013/07/sphere-triangulation-using-icosahedron.html
+vertices = []
+theta = 26.56505117707799 * math.pi / 180.0 # refer paper for theta value
+sin_theta = math.sin(theta)
+cos_theta = math.cos(theta)
+# the lower vertex
+vertices.append([0.0, 0.0, -1.0]) 
+# the lower pentagon
+phi = math.pi / 5.0;
+for i in range(1,6):
+    vertices.append([cos_theta * math.cos(phi), cos_theta * math.sin(phi), -sin_theta]);
+    phi = phi + 2.0 * math.pi / 5.0;
+# the upper pentagon
+phi = 0.0;
+for i in range(6,11):
+    vertices.append([cos_theta * math.cos(phi), cos_theta * math.sin(phi), sin_theta]);
+    phi = phi + 2.0 * math.pi / 5.0;
+# the upper vertex
+vertices.append([0.0, 0.0, 1.0])
+
 render_task_finished = True
-for azimuth_deg in g_lfd_camera_azimuth_dict[shape_synset]:
-    for elevation_deg in g_lfd_camera_elevation_dict[shape_synset]:
-        theta_deg = 0
-        lfd_image_file= '%s_%s_a%03d_e%03d_t%03d_d%03d.png' % (shape_synset, shape_md5, round(azimuth_deg), round(elevation_deg), round(theta_deg), round(g_lfd_camera_dist))
-        if not os.path.isfile(os.path.join(lfd_images_folder, lfd_image_file)):
-            render_task_finished = False
-            break
-    if not render_task_finished:
+for i in range(len(vertices)):
+    lfd_image_file= '%s_%02d.png' % (basename, i)
+    if not os.path.isfile(os.path.join(lfd_images_folder, lfd_image_file)):
+        render_task_finished = False
         break
 if render_task_finished:
     exit()
-      
 
 bpy.ops.import_scene.obj(filepath=shape_file) 
 
@@ -83,25 +96,27 @@ for i in range(g_lfd_light_num):
 for lamp_idx in range(len(bpy.data.lamps)):
     bpy.data.lamps[lamp_idx].energy = 2.0
 
-for azimuth_deg in g_lfd_camera_azimuth_dict[shape_synset]:
-    for elevation_deg in g_lfd_camera_elevation_dict[shape_synset]:
-        theta_deg = 0
-        lfd_image_file= '%s_%s_a%03d_e%03d_t%03d_d%03d.png' % (shape_synset, shape_md5, round(azimuth_deg), round(elevation_deg), round(theta_deg), round(g_lfd_camera_dist))
-        if os.path.isfile(os.path.join(lfd_images_folder, lfd_image_file)):
-          continue
-      
-        cx, cy, cz = obj_centened_camera_pos(g_lfd_camera_dist, azimuth_deg, elevation_deg)
-        q1 = camPosToQuaternion(cx, cy, cz)
-        q2 = camRotQuaternion(cx, cy, cz, theta_deg)
-        q = quaternionProduct(q2, q1)
-        camObj.location[0] = cx
-        camObj.location[1] = cy 
-        camObj.location[2] = cz
-        camObj.rotation_mode = 'QUATERNION'
-        camObj.rotation_quaternion[0] = q[0]
-        camObj.rotation_quaternion[1] = q[1]
-        camObj.rotation_quaternion[2] = q[2]
-        camObj.rotation_quaternion[3] = q[3]
-        
-        bpy.data.scenes['Scene'].render.filepath = os.path.join(lfd_images_folder, lfd_image_file)
-        bpy.ops.render.render( write_still=True )
+for i in range(len(vertices)):
+    azimuth_deg = math.degrees(math.atan(z, x))
+    elevation_deg = math.degrees(math.atan(y, abs(x)))
+    theta_deg = 0
+    
+    lfd_image_file= '%s_%02d.png' % (basename, i)
+    if os.path.isfile(os.path.join(lfd_images_folder, lfd_image_file)):
+      continue
+  
+    cx, cy, cz = obj_centened_camera_pos(g_lfd_camera_dist, azimuth_deg, elevation_deg)
+    q1 = camPosToQuaternion(cx, cy, cz)
+    q2 = camRotQuaternion(cx, cy, cz, theta_deg)
+    q = quaternionProduct(q2, q1)
+    camObj.location[0] = cx
+    camObj.location[1] = cy 
+    camObj.location[2] = cz
+    camObj.rotation_mode = 'QUATERNION'
+    camObj.rotation_quaternion[0] = q[0]
+    camObj.rotation_quaternion[1] = q[1]
+    camObj.rotation_quaternion[2] = q[2]
+    camObj.rotation_quaternion[3] = q[3]
+    
+    bpy.data.scenes['Scene'].render.filepath = os.path.join(lfd_images_folder, lfd_image_file)
+    bpy.ops.render.render( write_still=True )

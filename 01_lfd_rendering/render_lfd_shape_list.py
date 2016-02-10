@@ -19,17 +19,21 @@ if __name__ == '__main__':
     if not os.path.exists(g_lfd_images_folder):
         os.mkdir(g_lfd_images_folder) 
 
-    shape_list = [line.strip().split(' ') for line in open(g_shape_list_file, 'r')]
+    shape_list = []
+    lfd_folders = []
+    for root, dirs, files in os.walk(g_dataset_folder):
+        for filename in files:
+            if filename.endswith('.obj'):
+                filepath = os.path.join(root, filename)
+                shape_list.append(filepath)
+                lfd_folder = os.path.dirname(filepath.replace(g_dataset_folder, g_lfd_rendering_folder))
+                lfd_folders.append(os.path.abspath(lfd_folder))
     print(len(shape_list), 'shapes are going to be rendered!')
 
     print('Generating rendering commands...', end = '')
     commands = []
-    for shape_property in shape_list:
-        shape_synset = shape_property[0]
-        shape_md5 = shape_property[1]
-        shape_file = os.path.join(g_shapenet_root_folder, shape_synset, shape_md5, 'model.obj')
-
-        command = '%s ../blank.blend --background --python render_lfd_single_shape.py -- %s %s %s ' % (g_blender_executable_path, shape_file, shape_synset, shape_md5)
+    for i in range(len(shape_list)):
+        command = '%s ../blank.blend --background --python render_lfd_single_shape.py -- %s %s ' % (g_blender_executable_path, shape_list[i], lfd_folders[i])
         if len(shape_list) > 32:
             command = command + ' > /dev/null 2>&1'
         commands.append(command)
