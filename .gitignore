@@ -1,2 +1,6 @@
 download
 dataset
+3rd_party
+__pycache__
+global_variables.m
+*.pyc
