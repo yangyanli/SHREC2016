@@ -40,3 +40,7 @@ g_lfd_rendering_filelist = os.path.abspath(os.path.join(g_lfd_rendering_folder, 
 # http://www.mathworks.com/help/distcomp/saveprofile.html
 g_lfd_cropping_thread_num = g_thread_num # [take care!], try to match with #CPU core
 g_lfd_cropping_folder = os.path.abspath(os.path.join(ROOT, 'dataset_lfd_cropping'))
+
+##############################################################################
+# ImgDB Building
+##############################################################################
