@@ -13,4 +13,4 @@ if not os.path.exists(g_fine_tuning_folder):
     os.mkdir(g_fine_tuning_folder) 
 
 # download caffemodel
-call(['wget', '-O', g_caffemodel_filename, g_blender_executable_url])
+call(['wget', '-O', g_caffemodel_filename, g_caffemodel_url])
