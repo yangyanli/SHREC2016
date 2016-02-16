@@ -44,7 +44,7 @@ for i in range(len(annotations)):
 
 view_num = 12
 
-image_filelist = [[]]*view_num
+image_filelist = [[] for i in range(view_num)]
 for root, dirs, files in os.walk(args.input_folder):
     for filename in sorted(files):
         if filename.endswith('.png'):
