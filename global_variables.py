@@ -21,6 +21,7 @@ g_3rd_party_folder = os.path.abspath(os.path.join(ROOT, '3rd_party'))
 g_blender_executable_url = 'http://download.blender.org/release/Blender2.75/blender-2.75a-linux-glibc211-x86_64.tar.bz2'
 g_blender_executable_path = os.path.abspath(os.path.join(g_3rd_party_folder, 'blender/blender'))
 g_matlab_executable_path = os.path.abspath('/usr/local/bin/matlab') # [take care!!!]
+g_caffe_installation_path = os.path.abspath(os.path.join(g_3rd_party_folder, 'caffe'))
 
 ##############################################################################
 # Rendering
@@ -45,4 +46,4 @@ g_lfd_cropping_folder = os.path.abspath(os.path.join(ROOT, 'dataset_lfd_cropping
 # ImgDB Building
 ##############################################################################
 g_imgdb_building_folder = os.path.abspath(os.path.join(ROOT, 'dataset_imgdb_building'))
-g_im2rec_executable_path = os.path.abspath(os.path.join(g_3rd_party_folder, 'mxnet/im2rec'))
+

@@ -16,15 +16,17 @@ for dataset in datasets:
   for perturb in perturbs:
     input_folder = os.path.join(g_lfd_cropping_folder, dataset+perturb)
     annotations = os.path.join(g_dataset_folder, dataset+'.csv')
-    call(['./build_image_list.py', '-i', input_folder, '-a', annotations])
+    call(['./build_image_list.py', '-i', input_folder, '-a', annotations, '-o', g_imgdb_building_folder])
 
-shuffles = ['_shuffle', '']
-for dataset in datasets:
-  for perturb in perturbs:
-    for shuffle in shuffles:
-      image_filelist = os.path.join(g_lfd_cropping_folder, 'filelist_'+dataset+perturb+shuffle+'.txt')
-      record_filename = os.path.join(g_imgdb_building_folder, dataset+perturb+shuffle+'.rec')
-      args = [g_im2rec_executable_path, image_filelist, '/', record_filename, 'color=1', 'resize=227', 'force_square=1', 'label_width=2']
-      log_filename = os.path.join(g_imgdb_building_folder, dataset+perturb+shuffle+'.rec.txt')
+convert_imageset_executable_path = os.path.join(g_caffe_installation_path, 'bin', 'convert_imageset')
+
+view_num = 12
+for i in range(view_num):
+  for dataset in datasets:
+    for perturb in perturbs:
+      image_filelist = os.path.join(g_imgdb_building_folder, '%s_view_%02d_path_subid.txt'%(dataset+perturb, i))
+      imagedb_folder = os.path.join(g_imgdb_building_folder, '%s_view_%02d' % (dataset+perturb, i))
+      args = [convert_imageset_executable_path, '-resize_height', '227', '-resize_width', '227', '/', image_filelist, imagedb_folder]
+      log_filename = os.path.join(g_imgdb_building_folder, '%s_view_%02d_log.txt'%(dataset+perturb, i))
       with open(log_filename, 'w') as log_file:
         Popen(args, stdout=log_file, stderr=log_file)
