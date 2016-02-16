@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 
@@ -21,7 +21,7 @@ for root, dirs, files in os.walk(g_lfd_rendering_folder):
         root_cropping = root.replace(g_lfd_rendering_folder, g_lfd_cropping_folder)
         if not os.path.exists(root_cropping):
             os.makedirs(root_cropping)
-print(len(image_filelist), 'images are rendered!')
+print len(image_filelist), 'images are rendered!'
 
 with open(g_lfd_rendering_filelist, 'w') as filelist:
     for image_filename in image_filelist:

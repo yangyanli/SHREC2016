@@ -44,3 +44,5 @@ g_lfd_cropping_folder = os.path.abspath(os.path.join(ROOT, 'dataset_lfd_cropping
 ##############################################################################
 # ImgDB Building
 ##############################################################################
+g_imgdb_building_folder = os.path.abspath(os.path.join(ROOT, 'dataset_imgdb_building'))
+g_im2rec_executable_path = os.path.abspath(os.path.join(g_3rd_party_folder, 'mxnet/im2rec'))
