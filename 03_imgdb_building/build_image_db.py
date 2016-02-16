@@ -32,7 +32,7 @@ for i in range(view_num+1):
           view_str = ''
       image_filelist = os.path.join(g_imgdb_building_folder, '%s%s_path_subid.txt'%(dataset+perturb, view_str))
       imagedb_folder = os.path.join(g_imgdb_building_folder, '%s%s_lmdb' % (dataset+perturb, view_str))
-      args = [convert_imageset_executable_path, '-resize_height', '227', '-resize_width', '227', '/', image_filelist, imagedb_folder]
+      args = [convert_imageset_executable_path, '-resize_height', '224', '-resize_width', '224', '/', image_filelist, imagedb_folder]
       log_filename = os.path.join(g_imgdb_building_folder, '%s%s_log.txt'%(dataset+perturb, view_str))
       with open(log_filename, 'w') as log_file:
         processes.append(Popen(args, stdout=log_file, stderr=log_file))

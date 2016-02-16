@@ -28,13 +28,13 @@ for i in range(view_num+1):
           view_str = ''
       id_filename = os.path.join(g_imgdb_building_folder, '%s%s_id.txt'%(dataset+perturb, view_str))
       id_folder = os.path.join(g_imgdb_building_folder, '%s%s_id_lmdb' % (dataset+perturb, view_str))
-      
+      print 'Building ID LMDB', id_folder, '...'      
       env = lmdb.open(id_folder, map_size=int(1e12))
       ids = [int(line) for line in open(id_filename, 'r')]
-      array = [None]
+      array = np.zeros([1,1,1])
       with env.begin(write=True) as txn:
-        for category_id in ids:
+        for idx, category_id in enumerate(ids):
           array[0] = category_id
-          datum = caffe.io.array_to_datum(np.asarray(array).astype(float), category_id)
-          txn.put('{:0>10d}'.format(start_idx+idx), datum.SerializeToString())
+          datum = caffe.io.array_to_datum(array.astype(float), category_id)
+          txn.put('{:0>10d}'.format(idx), datum.SerializeToString())
       env.close();
