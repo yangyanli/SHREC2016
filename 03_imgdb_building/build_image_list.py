@@ -70,3 +70,13 @@ for i in range(view_num):
             image_info = image_filelist[i][shuffle[j]]
             path_subid_file.write('%s %d\n' % (image_info[0], image_info[2]))
             id_file.write('%d\n' % (image_info[1]))
+
+path_subid_filename = '%s/%s_path_subid.txt' % (args.output_folder, basename)
+id_filename = '%s/%s_id.txt' % (args.output_folder, basename)
+print 'Saving', path_subid_filename, 'and', id_filename, '...'
+with open(path_subid_filename, 'w') as path_subid_file, open(id_filename, 'w') as id_file:
+    for i in range(view_num):
+        for j in range(len(shuffle)):
+            image_info = image_filelist[i][shuffle[j]]
+            path_subid_file.write('%s %d\n' % (image_info[0], image_info[2]))
+            id_file.write('%d\n' % (image_info[1]))

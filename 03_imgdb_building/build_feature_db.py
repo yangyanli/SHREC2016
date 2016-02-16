@@ -24,16 +24,13 @@ convert_imageset_executable_path = os.path.join(g_caffe_installation_path, 'bin'
 processes = []
 args_list = []
 view_num = 12
-for i in range(view_num+1):
+for i in range(view_num):
   for dataset in datasets:
     for perturb in perturbs:
-      view_str = '_view_%02d' % (i)
-      if i == view_num:
-          view_str = ''
-      image_filelist = os.path.join(g_imgdb_building_folder, '%s%s_path_subid.txt'%(dataset+perturb, view_str))
-      imagedb_folder = os.path.join(g_imgdb_building_folder, '%s%s_lmdb' % (dataset+perturb, view_str))
+      image_filelist = os.path.join(g_imgdb_building_folder, '%s_view_%02d_path_subid.txt'%(dataset+perturb, i))
+      imagedb_folder = os.path.join(g_imgdb_building_folder, '%s_view_%02d_lmdb' % (dataset+perturb, i))
       args = [convert_imageset_executable_path, '-resize_height', '227', '-resize_width', '227', '/', image_filelist, imagedb_folder]
-      log_filename = os.path.join(g_imgdb_building_folder, '%s%s_log.txt'%(dataset+perturb, view_str))
+      log_filename = os.path.join(g_imgdb_building_folder, '%s_view_%02d_log.txt'%(dataset+perturb, i))
       with open(log_filename, 'w') as log_file:
         processes.append(Popen(args, stdout=log_file, stderr=log_file))
         args_list.append(args)

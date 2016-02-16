@@ -48,3 +48,4 @@ g_lfd_cropping_folder = os.path.abspath(os.path.join(ROOT, 'dataset_lfd_cropping
 g_imgdb_building_thread_num = g_thread_num # [take care!], try to match with #CPU core
 g_imgdb_building_folder = os.path.abspath(os.path.join(ROOT, 'dataset_imgdb_building'))
 
+g_caffemodel_url = 'http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel'
