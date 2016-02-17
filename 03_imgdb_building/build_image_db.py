@@ -11,6 +11,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(BASE_DIR))
 from global_variables import *
 
+call(['./build_category_list.py'])
+
 datasets = ['train', 'val']
 perturbs = ['', '_perturbed']
 for dataset in datasets:

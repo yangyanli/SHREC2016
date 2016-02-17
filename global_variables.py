@@ -47,6 +47,8 @@ g_lfd_cropping_folder = os.path.abspath(os.path.join(ROOT, 'dataset_lfd_cropping
 ##############################################################################
 g_imgdb_building_thread_num = g_thread_num # [take care!], try to match with #CPU core
 g_imgdb_building_folder = os.path.abspath(os.path.join(ROOT, 'dataset_imgdb_building'))
+g_imgdb_category_list = os.path.abspath(os.path.join(g_imgdb_building_folder, 'category_list.txt'))
+g_imgdb_sub_category_list = os.path.abspath(os.path.join(g_imgdb_building_folder, 'sub_category_list.txt'))
 
 ##############################################################################
 # Fine Tuning

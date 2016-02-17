@@ -21,17 +21,8 @@ args = parser.parse_args()
 annotations = [line.strip().split(',') for line in open(args.annotations, 'r')]
 del annotations[0] # remove the header
 
-categories = set()
-sub_categories = set()
-for i in range(len(annotations)):
-    categories.add(annotations[i][1])
-    sub_categories.add(annotations[i][2])
-    
-categories_list = sorted(list(categories))
-sub_categories_list = sorted(list(sub_categories))
-
-print len(categories_list), 'categories!'
-print len(sub_categories_list), 'sub-categories!'
+categories_list = [int(line) for line in open(g_imgdb_category_list, 'r')]
+sub_categories_list = [int(line) for line in open(g_imgdb_sub_category_list, 'r')]
 
 categories_dict = dict(zip(categories_list, range(len(categories_list))))
 sub_categories_dict = dict(zip(sub_categories_list, range(len(sub_categories_list))))
@@ -71,12 +62,12 @@ for i in range(view_num):
             path_subid_file.write('%s %d\n' % (image_info[0], image_info[2]))
             id_file.write('%d\n' % (image_info[1]))
 
+image_filelist_all_views = [item for view_list in image_filelist for item in view_list]
+random.shuffle(image_filelist_all_views)
 path_subid_filename = '%s/%s_path_subid.txt' % (args.output_folder, basename)
 id_filename = '%s/%s_id.txt' % (args.output_folder, basename)
 print 'Saving', path_subid_filename, 'and', id_filename, '...'
 with open(path_subid_filename, 'w') as path_subid_file, open(id_filename, 'w') as id_file:
-    for i in range(view_num):
-        for j in range(len(shuffle)):
-            image_info = image_filelist[i][shuffle[j]]
-            path_subid_file.write('%s %d\n' % (image_info[0], image_info[2]))
-            id_file.write('%d\n' % (image_info[1]))
+    for image_info in image_filelist_all_views:
+        path_subid_file.write('%s %d\n' % (image_info[0], image_info[2]))
+        id_file.write('%d\n' % (image_info[1]))
