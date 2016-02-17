@@ -21,8 +21,8 @@ args = parser.parse_args()
 annotations = [line.strip().split(',') for line in open(args.annotations, 'r')]
 del annotations[0] # remove the header
 
-categories_list = [int(line) for line in open(g_imgdb_category_list, 'r')]
-sub_categories_list = [int(line) for line in open(g_imgdb_sub_category_list, 'r')]
+categories_list = [line.strip() for line in open(g_imgdb_category_list, 'r')]
+sub_categories_list = [line.strip() for line in open(g_imgdb_sub_category_list, 'r')]
 
 categories_dict = dict(zip(categories_list, range(len(categories_list))))
 sub_categories_dict = dict(zip(sub_categories_list, range(len(sub_categories_list))))
@@ -34,7 +34,6 @@ for i in range(len(annotations)):
   fileid_to_sub_category[annotations[i][0]] = sub_categories_dict[annotations[i][2]] 
 
 view_num = 12
-
 image_filelist = [[] for i in range(view_num)]
 for root, dirs, files in os.walk(args.input_folder):
     for filename in sorted(files):
@@ -49,6 +48,7 @@ for root, dirs, files in os.walk(args.input_folder):
 print len(image_filelist[0]), 'models!'
 
 shuffle = range(len(image_filelist[0]))
+random.seed(9527)
 random.shuffle(shuffle)
 
 basename = os.path.basename(args.input_folder)
@@ -63,6 +63,7 @@ for i in range(view_num):
             id_file.write('%d\n' % (image_info[1]))
 
 image_filelist_all_views = [item for view_list in image_filelist for item in view_list]
+random.seed(9527)
 random.shuffle(image_filelist_all_views)
 path_subid_filename = '%s/%s_path_subid.txt' % (args.output_folder, basename)
 id_filename = '%s/%s_id.txt' % (args.output_folder, basename)

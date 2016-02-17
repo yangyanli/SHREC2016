@@ -14,7 +14,7 @@ layers {
  }
  data_param {
     source: "/home/yangyan/SHREC2016/dataset_imgdb_building/train_lmdb"
-    batch_size: 128
+    batch_size: 64
     backend: LMDB
   }
   top: "data"
@@ -28,7 +28,7 @@ layers {
   }
  data_param {
     source: "/home/yangyan/SHREC2016/dataset_imgdb_building/train_id_lmdb"
-    batch_size: 128
+    batch_size: 64
     backend: LMDB
   }
   top: "id"
@@ -48,7 +48,7 @@ layers {
  }
  data_param {
     source: "/home/yangyan/SHREC2016/dataset_imgdb_building/val_lmdb"
-    batch_size: 64
+    batch_size: 16
     backend: LMDB
   }
   top: "data"
@@ -62,7 +62,7 @@ layers {
   }
  data_param {
     source: "/home/yangyan/SHREC2016/dataset_imgdb_building/val_id_lmdb"
-    batch_size: 64
+    batch_size: 16
     backend: LMDB
   }
   top: "id"
@@ -399,8 +399,8 @@ layers {
   top: "fc6"
   name: "fc6"
   type: INNER_PRODUCT
-  blob_lr: 3
-  blob_lr: 3 
+  blobs_lr: 3
+  blobs_lr: 3 
   inner_product_param {
     num_output: 4096
   }
@@ -425,8 +425,8 @@ layers {
   top: "fc7"
   name: "fc7"
   type: INNER_PRODUCT
-  blob_lr: 6
-  blob_lr: 6
+  blobs_lr: 6
+  blobs_lr: 6
   inner_product_param {
     num_output: 4096
   }
@@ -451,8 +451,8 @@ layers {
   bottom: "fc7"
   top: "fc8_subid"
   type: INNER_PRODUCT
-  blob_lr: 10
-  blob_lr: 10
+  blobs_lr: 10
+  blobs_lr: 10
   inner_product_param {
     num_output: 203
   }
@@ -480,8 +480,8 @@ layers {
   bottom: "fc7"
   top: "fc8_id"
   type: INNER_PRODUCT
-  blob_lr: 10
-  blob_lr: 10
+  blobs_lr: 10
+  blobs_lr: 10
   inner_product_param {
     num_output: 55
   }
