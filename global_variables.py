@@ -56,3 +56,9 @@ g_imgdb_sub_category_list = os.path.abspath(os.path.join(g_imgdb_building_folder
 g_caffemodel_url = 'http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel'
 g_fine_tuning_folder = os.path.abspath(os.path.join(ROOT, 'dataset_fine_tuning'))
 g_caffemodel_filename = os.path.abspath(os.path.join(g_fine_tuning_folder, 'VGG_ILSVRC_19_layers.caffemodel'))
+
+
+##############################################################################
+# Feature Extraction
+##############################################################################
+g_feature_extraction_folder = os.path.abspath(os.path.join(ROOT, 'dataset_feature_extraction'))

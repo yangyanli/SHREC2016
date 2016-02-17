@@ -3,43 +3,38 @@
 
 import os
 import sys
-import time
-from subprocess import call
-from subprocess import Popen
+import shutil
+import fileinput
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(BASE_DIR))
 from global_variables import *
+sys.path.append(os.path.dirname(BASE_DIR))
+sys.path.append(os.path.join(os.path.dirname(BASE_DIR), 'utilities_python'))
+from utilities_caffe import *
 
-datasets = ['train', 'val']
+datasets = ['train', 'val', 'test']
 perturbs = ['', '_perturbed']
-for dataset in datasets:
-  for perturb in perturbs:
-    input_folder = os.path.join(g_lfd_cropping_folder, dataset+perturb)
-    annotations = os.path.join(g_dataset_folder, dataset+'.csv')
-    call(['./build_image_list.py', '-i', input_folder, '-a', annotations, '-o', g_imgdb_building_folder])
 
-convert_imageset_executable_path = os.path.join(g_caffe_installation_path, 'bin', 'convert_imageset')
-
-processes = []
-args_list = []
 view_num = 12
 for i in range(view_num):
   for dataset in datasets:
     for perturb in perturbs:
-      image_filelist = os.path.join(g_imgdb_building_folder, '%s_view_%02d_path_subid.txt'%(dataset+perturb, i))
       imagedb_folder = os.path.join(g_imgdb_building_folder, '%s_view_%02d_lmdb' % (dataset+perturb, i))
-      args = [convert_imageset_executable_path, '-resize_height', '227', '-resize_width', '227', '/', image_filelist, imagedb_folder]
-      log_filename = os.path.join(g_imgdb_building_folder, '%s_view_%02d_log.txt'%(dataset+perturb, i))
-      with open(log_filename, 'w') as log_file:
-        processes.append(Popen(args, stdout=log_file, stderr=log_file))
-        args_list.append(args)
-      while len(processes) >= g_imgdb_building_thread_num:
-        for p in processes:
-          if p.poll() is not None:
-            p_idx = processes.index(p)
-            if p.returncode != 0:
-              print 'Error: command \'%s\' failed!!' % (' '.join(args_list[p_idx]))   
-            del args_list[p_idx]
-            processes.remove(p)
-        time.sleep(1)
+      lmdb_folder = os.path.join(g_feature_extraction_folder, '%s_view_%02d_lmdb' % (dataset+perturb, i))
+      prototxt_in = os.path.join(BASE_DIR, 'feature_extraction.prototxt')
+      prototxt_file = os.path.join(g_feature_extraction_folder, '%s_view_%02d_lmdb.prototxt' % (dataset+perturb, i))
+      shutil.copyfile(prototxt_in, prototxt_file)
+      for line in fileinput.input(prototxt_file, inplace=True):
+        print line.replace('PATH_TO_LMDB', imagedb_folder),
+      caffemodel_file = os.path.join(g_fine_tuning_folder, 'fine_tuning%s' % (perturb), 'snapshot_iter_40000.caffemodel')
+      print 'Extracting features from %s...' % (imagedb_folder)
+      extract_cnn_features(prototxt=prototxt_file,
+                           caffemodel=caffemodel_file,
+                           feat_name='fc7',
+                           label_name='subid',
+                           output_lmdb=lmdb_folder,
+                           sample_num=count_lmdb_size(imagedb_folder),
+                           caffe_path=g_caffe_installation_path,
+                           gpu_index=14)
+      

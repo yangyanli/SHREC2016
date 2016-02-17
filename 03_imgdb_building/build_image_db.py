@@ -13,7 +13,7 @@ from global_variables import *
 
 call(['./build_category_list.py'])
 
-datasets = ['train', 'val']
+datasets = ['train', 'val', 'test']
 perturbs = ['', '_perturbed']
 for dataset in datasets:
   for perturb in perturbs:
@@ -44,7 +44,9 @@ for i in range(view_num+1):
           if p.poll() is not None:
             p_idx = processes.index(p)
             if p.returncode != 0:
-              print 'Error: command \'%s\' failed!!' % (' '.join(args_list[p_idx]))   
+              print 'Error: command \'%s\' failed!!' % (' '.join(args_list[p_idx]))
+            else:
+              print 'Command \'%s\' finished successfully.' % (' '.join(args_list[p_idx]))
             del args_list[p_idx]
             processes.remove(p)
         time.sleep(1)
