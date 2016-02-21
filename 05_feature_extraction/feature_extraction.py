@@ -27,7 +27,7 @@ for i in range(view_num):
       shutil.copyfile(prototxt_in, prototxt_file)
       for line in fileinput.input(prototxt_file, inplace=True):
         print line.replace('PATH_TO_LMDB', imagedb_folder),
-      caffemodel_file = os.path.join(g_fine_tuning_folder, 'fine_tuning%s' % (perturb), 'snapshot_iter_40000.caffemodel')
+      caffemodel_file = os.path.join(g_fine_tuning_folder, 'fine_tuning%s' % (perturb), 'best_per_view.caffemodel')
       print 'Extracting features from %s...' % (imagedb_folder)
       extract_cnn_features(prototxt=prototxt_file,
                            caffemodel=caffemodel_file,

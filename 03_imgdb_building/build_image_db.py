@@ -4,6 +4,7 @@
 import os
 import sys
 import time
+import shutil
 from subprocess import call
 from subprocess import Popen
 
@@ -31,9 +32,11 @@ for i in range(view_num+1):
     for perturb in perturbs:
       view_str = '_view_%02d' % (i)
       if i == view_num:
-          view_str = ''
+        view_str = ''
       image_filelist = os.path.join(g_imgdb_building_folder, '%s%s_path_subid.txt'%(dataset+perturb, view_str))
       imagedb_folder = os.path.join(g_imgdb_building_folder, '%s%s_lmdb' % (dataset+perturb, view_str))
+      if os.path.exists(imagedb_folder):
+        shutil.rmtree(imagedb_folder)
       args = [convert_imageset_executable_path, '-resize_height', '224', '-resize_width', '224', '/', image_filelist, imagedb_folder]
       log_filename = os.path.join(g_imgdb_building_folder, '%s%s_log.txt'%(dataset+perturb, view_str))
       with open(log_filename, 'w') as log_file:

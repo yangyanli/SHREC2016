@@ -17,6 +17,9 @@ parser.add_argument('-a', '--annotations', help='Path to annotations file', requ
 parser.add_argument('-o', '--output_folder', help='Path to output folder', required=True)
 args = parser.parse_args()
 
+fileid_to_category = dict()
+fileid_to_sub_category = dict()
+ 
 is_testing = True
 if os.path.exists(args.annotations):
     is_testing = False
@@ -30,11 +33,9 @@ if os.path.exists(args.annotations):
     categories_dict = dict(zip(categories_list, range(len(categories_list))))
     sub_categories_dict = dict(zip(sub_categories_list, range(len(sub_categories_list))))
     
-    fileid_to_category = dict()
-    fileid_to_sub_category = dict()
     for i in range(len(annotations)):
-      fileid_to_category[annotations[i][0]] = categories_dict[annotations[i][1]] 
-      fileid_to_sub_category[annotations[i][0]] = sub_categories_dict[annotations[i][2]] 
+        fileid_to_category[annotations[i][0]] = categories_dict[annotations[i][1]] 
+        fileid_to_sub_category[annotations[i][0]] = sub_categories_dict[annotations[i][2]] 
 
 view_num = 12
 image_filelist = [[] for i in range(view_num)]
@@ -42,7 +43,7 @@ for root, dirs, files in os.walk(args.input_folder):
     for filename in sorted(files):
         if filename.endswith('.png'):
             fileid = root[-6:]
-            if fileid in fileid_to_category:
+            if is_testing or fileid in fileid_to_category:
                 category_id = 0
                 sub_category_id = 0
                 if not is_testing:
