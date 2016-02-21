@@ -26,10 +26,15 @@ def extract_cnn_features(prototxt, caffemodel, feat_name, label_name, output_lmd
         while True:
             net.forward()
             feat_array = net.blobs[feat_name].data
+            print 'Shape of \"%s\" is' % (feat_name), feat_array.shape 
             label_array = net.blobs[label_name].data
             idx_in_batch = 0
-            while count < sample_num and idx_in_batch < len(feat_array):
-                datum = caffe.io.array_to_datum(feat_array.astype(float), label_array[idx_in_batch])
+            num_in_batch = feat_array.shape[0]
+            len_feature = feat_array.shape[1]
+            while count < sample_num and idx_in_batch < num_in_batch:
+                feature = feat_array[idx_in_batch].reshape(len_feature, 1, 1).astype(float)
+                label = label_array[idx_in_batch].astype(int)
+                datum = caffe.io.array_to_datum(feature, label)
                 txn.put('{:0>10d}'.format(count), datum.SerializeToString())
                 count = count + 1
                 idx_in_batch = idx_in_batch + 1

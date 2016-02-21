@@ -34,7 +34,6 @@ for i in range(view_num):
                            feat_name='fc7',
                            label_name='subid',
                            output_lmdb=lmdb_folder,
-                           sample_num=count_lmdb_size(imagedb_folder),
+                           sample_num=get_lmdb_size(imagedb_folder),
                            caffe_path=g_caffe_installation_path,
                            gpu_index=14)
-      

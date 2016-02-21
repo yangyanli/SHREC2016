@@ -14,7 +14,7 @@ layers {
  }
  data_param {
     source: "PATH_TO_LMDB"
-    batch_size: 16
+    batch_size: 64
     backend: LMDB
   }
   top: "data"

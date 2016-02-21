@@ -53,3 +53,17 @@ for i in range(view_num+1):
             del args_list[p_idx]
             processes.remove(p)
         time.sleep(1)
+
+while len(processes) >= 0:
+  for p in processes:
+    if p.poll() is not None:
+      p_idx = processes.index(p)
+      if p.returncode != 0:
+        print 'Error: command \'%s\' failed!!' % (' '.join(args_list[p_idx]))
+      else:
+        print 'Command \'%s\' finished successfully.' % (' '.join(args_list[p_idx]))
+      del args_list[p_idx]
+      processes.remove(p)
+  time.sleep(1)
+
+print 'Building imagedb finished!'
