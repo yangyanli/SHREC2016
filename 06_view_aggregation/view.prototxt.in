@@ -1,0 +1,135 @@
+layers {
+  name: "data_fc7_view_xx"
+  type: DATA
+  include {
+    phase: TRAIN
+  }
+  data_param {
+    source: "PATH_TO_TRAIN_LMDB_view_xx_lmdb"
+    batch_size: TRAIN_BATCH_SIZE
+    backend: LMDB
+  }
+  top: "data_fc7_view_xx"
+  top: "subid"
+}
+layers {
+  name: "data_fc7_view_xx"
+  type: DATA
+  include {
+    phase: TEST
+  }
+  data_param {
+    source: "PATH_TO_TEST_LMDB_view_xx_lmdb"
+    batch_size: TEST_BATCH_SIZE
+    backend: LMDB
+  }
+  top: "data_fc7_view_xx"
+  top: "subid"
+}
+layer {
+  name: "fc0_view_xx"
+  type: "InnerProduct"
+  bottom: "data_fc7_view_xx"
+  top: "fc0_view_xx"
+  param {
+    name: "fc0_view_w"
+    lr_mult: 1
+    dacay_mult: 1
+  }
+  param {
+    name: "fc0_view_b"
+    lr_mult: 2
+    dacay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2048 
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu0_view_xx"
+  type: "ReLU"
+  bottom: "fc0_view_xx"
+  top: "fc0_view_xx"
+}
+layer {
+  name: "drop0_view_xx"
+  type: "Dropout"
+  bottom: "fc0_view_xx"
+  top: "fc0_view_xx"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+
+layer {
+  name: "fc1_view_xx"
+  type: "InnerProduct"
+  bottom: "fc0_view_xx"
+  top: "fc1_view_xx"
+  param {
+    name: "fc1_view_w"
+    lr_mult: 1
+    dacay_mult: 1
+  }
+  param {
+    name: "fc1_view_b"
+    lr_mult: 2
+    dacay_mult: 0
+  }
+  inner_product_param {
+    num_output: 1024 
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu1_view_xx"
+  type: "ReLU"
+  bottom: "fc1_view_xx"
+  top: "fc1_view_xx"
+}
+layer {
+  name: "drop1_view_xx"
+  type: "Dropout"
+  bottom: "fc1_view_xx"
+  top: "fc1_view_xx"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+
+layer {
+  name: "fc2_view_xx"
+  type: "InnerProduct"
+  bottom: "fc1_view_xx"
+  top: "fc2_view_xx"
+  param {
+    name: "fc2_view_w"
+    lr_mult: 1
+    dacay_mult: 1
+  }
+  param {
+    name: "fc2_view_b"
+    lr_mult: 2
+    dacay_mult: 0
+  }
+  inner_product_param {
+    num_output: 512 
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}

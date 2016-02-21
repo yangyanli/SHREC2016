@@ -62,3 +62,8 @@ g_caffemodel_filename = os.path.abspath(os.path.join(g_fine_tuning_folder, 'VGG_
 # Feature Extraction
 ##############################################################################
 g_feature_extraction_folder = os.path.abspath(os.path.join(ROOT, 'dataset_feature_extraction'))
+
+##############################################################################
+# View Aggregation
+##############################################################################
+g_view_aggregation_folder = os.path.abspath(os.path.join(ROOT, 'dataset_view_aggregation'))
