@@ -452,9 +452,19 @@ layers {
   top: "fc8_subid"
   type: INNER_PRODUCT
   blobs_lr: 10
+  weight_decay: 1
   blobs_lr: 10
+  weight_decay: 0
   inner_product_param {
     num_output: 203
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
   }
 }
 layers {
@@ -481,9 +491,19 @@ layers {
   top: "fc8_id"
   type: INNER_PRODUCT
   blobs_lr: 10
+  weight_decay: 1
   blobs_lr: 10
+  weight_decay: 0
   inner_product_param {
     num_output: 55
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
   }
 }
 layers {

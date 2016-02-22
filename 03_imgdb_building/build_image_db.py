@@ -54,7 +54,7 @@ for i in range(view_num+1):
             processes.remove(p)
         time.sleep(1)
 
-while len(processes) >= 0:
+while len(processes) > 0:
   for p in processes:
     if p.poll() is not None:
       p_idx = processes.index(p)

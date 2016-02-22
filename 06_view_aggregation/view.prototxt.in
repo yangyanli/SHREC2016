@@ -34,12 +34,12 @@ layer {
   param {
     name: "fc0_view_w"
     lr_mult: 1
-    dacay_mult: 1
+    decay_mult: 1
   }
   param {
     name: "fc0_view_b"
     lr_mult: 2
-    dacay_mult: 0
+    decay_mult: 0
   }
   inner_product_param {
     num_output: 2048 
@@ -75,12 +75,12 @@ layer {
   param {
     name: "fc1_view_w"
     lr_mult: 1
-    dacay_mult: 1
+    decay_mult: 1
   }
   param {
     name: "fc1_view_b"
     lr_mult: 2
-    dacay_mult: 0
+    decay_mult: 0
   }
   inner_product_param {
     num_output: 1024 
@@ -116,12 +116,12 @@ layer {
   param {
     name: "fc2_view_w"
     lr_mult: 1
-    dacay_mult: 1
+    decay_mult: 1
   }
   param {
     name: "fc2_view_b"
     lr_mult: 2
-    dacay_mult: 0
+    decay_mult: 0
   }
   inner_product_param {
     num_output: 512 

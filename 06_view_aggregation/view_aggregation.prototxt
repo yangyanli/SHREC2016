@@ -124,14 +124,14 @@ layer {
 layers {
   name: "loss_subid"
   type: SOFTMAX_LOSS
-  bottom: "fc8_subid"
+  bottom: "fc2_subid"
   bottom: "subid"
   top: "loss/loss_subid"
 }
 layers {
   name: "accuracy/top1_subid"
   type: ACCURACY
-  bottom: "fc8_subid"
+  bottom: "fc2_subid"
   bottom: "subid"
   top: "accuracy@1_subid"
   include: { phase: TEST }

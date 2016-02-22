@@ -36,4 +36,4 @@ for i in range(view_num):
                            output_lmdb=lmdb_folder,
                            sample_num=get_lmdb_size(imagedb_folder),
                            caffe_path=g_caffe_installation_path,
-                           gpu_index=14)
+                           gpu_index=6)
