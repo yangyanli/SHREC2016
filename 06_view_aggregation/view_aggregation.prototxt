@@ -121,16 +121,16 @@ layer {
     }
   }
 }
-layers {
+layer {
   name: "loss_subid"
-  type: SOFTMAX_LOSS
+  type: "SoftmaxWithLoss"
   bottom: "fc2_subid"
   bottom: "subid"
   top: "loss/loss_subid"
 }
-layers {
+layer {
   name: "accuracy/top1_subid"
-  type: ACCURACY
+  type: "Accuracy"
   bottom: "fc2_subid"
   bottom: "subid"
   top: "accuracy@1_subid"
@@ -164,9 +164,9 @@ layer {
     }
   }
 }
-layers {
+layer {
   name: "data_id"
-  type: DATA
+  type: "Data"
   include {
     phase: TRAIN
   }
@@ -177,9 +177,9 @@ layers {
   }
   top: "id"
 }
-layers {
+layer {
   name: "data_id"
-  type: DATA
+  type: "Data"
   include {
     phase: TEST
   }
@@ -190,16 +190,16 @@ layers {
   }
   top: "id"
 }
-layers {
+layer {
   name: "loss_id"
-  type: SOFTMAX_LOSS
+  type: "SoftmaxWithLoss"
   bottom: "fc2_id"
   bottom: "id"
   top: "loss/loss_id"
 }
-layers {
+layer {
   name: "accuracy/top1_id"
-  type: ACCURACY
+  type: "Accuracy"
   bottom: "fc2_id"
   bottom: "id"
   top: "accuracy@1_id"

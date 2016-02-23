@@ -28,21 +28,21 @@ def extract_features(prototxt, caffemodel, features, output_lmdbs, sample_num, c
         
     # extract features
     executable_path = os.path.join(caffe_path, 'bin', 'extract_features')
-    args = [executable_path, caffemodel, prototxt, ','.join(features), ','.join(output_lmdbs), num_mini_batches, 'LMDB', 'GPU', 'DEVICE_ID=%d'%(gpu_index)]
+    args = [executable_path, caffemodel, prototxt, ','.join(features), ','.join(output_lmdbs), str(num_mini_batches), 'lmdb', 'GPU', str(gpu_index)]
+    print args
     call(args)
     
     # crop lmdbs to length of sample_num
     num_cropping = batch_size*num_mini_batches-sample_num
     if num_cropping != 0:
-        print datetime.datetime.now().time(), "Cropping LMDBS %s..."%(' and '.join(output_lmdbs))
-        num_cropping = batch_size*num_mini_batches-sample_num
         for output_lmdb in output_lmdbs:
-            env = lmdb.open(output_lmdb, reverse_key=True)
+            print datetime.datetime.now().time(), "Cropping LMDBS %s..."%(output_lmdb)
+            env = lmdb.open(output_lmdb, map_size=int(1e12))
             with env.begin(write=True) as txn:
                 cursor = txn.cursor()
-                key = cursor.get('key')
-                print 'Deleting item with key: %s...'%(key)
-                lmdb.delete(key)
+                for i in range(num_cropping):
+                    cursor.last()
+                    cursor.delete()
             env.close()
     
 def get_lmdb_size(lmdb_folder):

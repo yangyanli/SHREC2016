@@ -18,9 +18,6 @@ perturbs = ['', '_perturbed']
 features = ['fc7', 'subid']
 view_num = 12
 
-datasets = ['val']
-perturbs = ['']
-view_num = 1
 for i in range(view_num):
   for dataset in datasets:
     for perturb in perturbs:
@@ -34,7 +31,10 @@ for i in range(view_num):
       print 'Extracting features from %s...' % (imagedb_folder)
       
       output_lmdbs = [os.path.join(g_feature_extraction_folder, '%s_view_%02d_%s_lmdb' % (dataset+perturb, i, feature)) for feature in features]
-      extract_cnn_features(prototxt=prototxt_file,
+      for output_lmdb in output_lmdbs:
+        if os.path.exists(output_lmdb):
+          shutil.rmtree(output_lmdb)
+      extract_features(prototxt=prototxt_file,
                            caffemodel=caffemodel_file,
                            features=features,
                            output_lmdbs=output_lmdbs,

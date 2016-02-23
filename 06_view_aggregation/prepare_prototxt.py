@@ -8,8 +8,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(BASE_DIR))
 from global_variables import *
 
-train_batch_size = 128
-test_batch_size = 64
+train_batch_size = 1024
+test_batch_size = 512
 view_num = 12
 perturbs = ['', '_perturbed']
 for perturb in perturbs:

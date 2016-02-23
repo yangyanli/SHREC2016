@@ -1,6 +1,6 @@
-layers {
+layer {
   name: "data_fc7_view_xx"
-  type: DATA
+  type: "Data"
   include {
     phase: TRAIN
   }
@@ -12,9 +12,9 @@ layers {
   top: "data_fc7_view_xx"
   top: "subid"
 }
-layers {
+layer {
   name: "data_fc7_view_xx"
-  type: DATA
+  type: "Data"
   include {
     phase: TEST
   }
