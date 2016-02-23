@@ -15,13 +15,16 @@ from utilities_caffe import *
 
 datasets = ['train', 'val', 'test']
 perturbs = ['', '_perturbed']
-
+features = ['fc7', 'subid']
 view_num = 12
+
+datasets = ['val']
+perturbs = ['']
+view_num = 1
 for i in range(view_num):
   for dataset in datasets:
     for perturb in perturbs:
       imagedb_folder = os.path.join(g_imgdb_building_folder, '%s_view_%02d_lmdb' % (dataset+perturb, i))
-      lmdb_folder = os.path.join(g_feature_extraction_folder, '%s_view_%02d_lmdb' % (dataset+perturb, i))
       prototxt_in = os.path.join(BASE_DIR, 'feature_extraction.prototxt')
       prototxt_file = os.path.join(g_feature_extraction_folder, '%s_view_%02d_lmdb.prototxt' % (dataset+perturb, i))
       shutil.copyfile(prototxt_in, prototxt_file)
@@ -29,11 +32,12 @@ for i in range(view_num):
         print line.replace('PATH_TO_LMDB', imagedb_folder),
       caffemodel_file = os.path.join(g_fine_tuning_folder, 'fine_tuning%s' % (perturb), 'best_per_view.caffemodel')
       print 'Extracting features from %s...' % (imagedb_folder)
+      
+      output_lmdbs = [os.path.join(g_feature_extraction_folder, '%s_view_%02d_%s_lmdb' % (dataset+perturb, i, feature)) for feature in features]
       extract_cnn_features(prototxt=prototxt_file,
                            caffemodel=caffemodel_file,
-                           feat_name='fc7',
-                           label_name='subid',
-                           output_lmdb=lmdb_folder,
+                           features=features,
+                           output_lmdbs=output_lmdbs,
                            sample_num=get_lmdb_size(imagedb_folder),
                            caffe_path=g_caffe_installation_path,
-                           gpu_index=6)
+                           gpu_index=1)

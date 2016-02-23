@@ -5,43 +5,45 @@ import os
 import sys
 import lmdb
 import datetime
+from subprocess import call
+from google.protobuf import text_format
 
 #https://github.com/BVLC/caffe/issues/861#issuecomment-70124809
 import matplotlib 
 matplotlib.use('Agg')   
 
-def extract_cnn_features(prototxt, caffemodel, feat_name, label_name, output_lmdb, sample_num, caffe_path=None, gpu_index=0, pool_size=8):   
+def extract_features(prototxt, caffemodel, features, output_lmdbs, sample_num, caffe_path=None, gpu_index=0):
+    # get batch_size
     if caffe_path:
         sys.path.append(os.path.join(caffe_path, 'python'))
     import caffe
+    net_parameter = caffe.proto.caffe_pb2.NetParameter()
+    text_format.Merge(open(prototxt, 'r').read(), net_parameter)
+    if not net_parameter.layer:
+        batch_size = net_parameter.layers[0].data_param.batch_size
+    else:
+        batch_size = net_parameter.layer[0].data_param.batch_size
+    num_mini_batches = (sample_num+batch_size-1)/batch_size
+    print 'Batch size is %d, and requires %d mini batches to process %d samples!'%(batch_size, num_mini_batches, sample_num)
+        
+    # extract features
+    executable_path = os.path.join(caffe_path, 'bin', 'extract_features')
+    args = [executable_path, caffemodel, prototxt, ','.join(features), ','.join(output_lmdbs), num_mini_batches, 'LMDB', 'GPU', 'DEVICE_ID=%d'%(gpu_index)]
+    call(args)
     
-    # INIT NETWORK
-    caffe.set_mode_gpu()
-    caffe.set_device(gpu_index)
-    net = caffe.Net(prototxt, caffemodel, caffe.TEST)  
-         
-    env = lmdb.open(output_lmdb, map_size=int(1e12))
-    with env.begin(write=True) as txn:
-        count = 0
-        while True:
-            net.forward()
-            feat_array = net.blobs[feat_name].data
-            print 'Shape of \"%s\" is' % (feat_name), feat_array.shape 
-            label_array = net.blobs[label_name].data
-            idx_in_batch = 0
-            num_in_batch = feat_array.shape[0]
-            len_feature = feat_array.shape[1]
-            while count < sample_num and idx_in_batch < num_in_batch:
-                feature = feat_array[idx_in_batch].reshape(len_feature, 1, 1).astype(float)
-                label = label_array[idx_in_batch].astype(int)
-                datum = caffe.io.array_to_datum(feature, label)
-                txn.put('{:0>10d}'.format(count), datum.SerializeToString())
-                count = count + 1
-                idx_in_batch = idx_in_batch + 1
-            print datetime.datetime.now().time(), "Processing %d of %d..."%(count, sample_num)
-            if count >= sample_num:
-                break
-    env.close()
+    # crop lmdbs to length of sample_num
+    num_cropping = batch_size*num_mini_batches-sample_num
+    if num_cropping != 0:
+        print datetime.datetime.now().time(), "Cropping LMDBS %s..."%(' and '.join(output_lmdbs))
+        num_cropping = batch_size*num_mini_batches-sample_num
+        for output_lmdb in output_lmdbs:
+            env = lmdb.open(output_lmdb, reverse_key=True)
+            with env.begin(write=True) as txn:
+                cursor = txn.cursor()
+                key = cursor.get('key')
+                print 'Deleting item with key: %s...'%(key)
+                lmdb.delete(key)
+            env.close()
     
 def get_lmdb_size(lmdb_folder):
     env = lmdb.open(lmdb_folder, readonly=True)
