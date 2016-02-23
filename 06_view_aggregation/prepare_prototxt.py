@@ -18,8 +18,6 @@ for perturb in perturbs:
     lines = []
     lines.extend([line.replace('view_xx', 'view_%02d'%(0)) for line in view_prototxt_in_lines])
     view_prototxt_in_lines = [line.replace('  top: \"subid\"', '#  top: \"subid\"') for line in view_prototxt_in_lines]
-    for i in range(1, view_num):
-        lines.extend([line.replace('view_xx', 'view_%02d'%(i)) for line in view_prototxt_in_lines])
     view_aggregation_prototxt = os.path.join(BASE_DIR, 'view_aggregation.prototxt')
     lines.extend([line for line in open(view_aggregation_prototxt, 'r')])
     

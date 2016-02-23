@@ -122,6 +122,32 @@ layer {
   }
 }
 layer {
+  name: "data_subid"
+  type: "Data"
+  include {
+    phase: TRAIN
+  }
+  data_param {
+    source: "PATH_TO_TRAIN_LMDB_view_00_subid_lmdb"
+    batch_size: TRAIN_BATCH_SIZE 
+    backend: LMDB
+  }
+  top: "suid"
+}
+layer {
+  name: "data_subid"
+  type: "Data"
+  include {
+    phase: TEST
+  }
+  data_param {
+    source: "PATH_TO_TEST_LMDB_view_00_subid_lmdb"
+    batch_size: TEST_BATCH_SIZE 
+    backend: LMDB
+  }
+  top: "subid"
+}
+layer {
   name: "loss_subid"
   type: "SoftmaxWithLoss"
   bottom: "fc2_subid"

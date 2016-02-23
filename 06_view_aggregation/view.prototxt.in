@@ -1,35 +1,33 @@
 layer {
-  name: "data_fc7_view_xx"
+  name: "data_view_xx_fc7"
   type: "Data"
   include {
     phase: TRAIN
   }
   data_param {
-    source: "PATH_TO_TRAIN_LMDB_view_xx_lmdb"
+    source: "PATH_TO_TRAIN_LMDB_view_xx_fc7_lmdb"
     batch_size: TRAIN_BATCH_SIZE
     backend: LMDB
   }
-  top: "data_fc7_view_xx"
-  top: "subid"
+  top: "data_view_xx_fc7"
 }
 layer {
-  name: "data_fc7_view_xx"
+  name: "data_view_xx_fc7"
   type: "Data"
   include {
     phase: TEST
   }
   data_param {
-    source: "PATH_TO_TEST_LMDB_view_xx_lmdb"
+    source: "PATH_TO_TEST_LMDB_view_xx_fc7_lmdb"
     batch_size: TEST_BATCH_SIZE
     backend: LMDB
   }
-  top: "data_fc7_view_xx"
-  top: "subid"
+  top: "data_view_xx_fc7"
 }
 layer {
   name: "fc0_view_xx"
   type: "InnerProduct"
-  bottom: "data_fc7_view_xx"
+  bottom: "data_view_xx_fc7"
   top: "fc0_view_xx"
   param {
     name: "fc0_view_w"
