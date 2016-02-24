@@ -5,7 +5,7 @@ import os
 import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(BASE_DIR))
+sys.path.append(os.path.dirname(os.path.dirname(BASE_DIR)))
 from global_variables import *
 
 train_batch_size = 1024
@@ -23,7 +23,7 @@ for perturb in perturbs:
     
     path_to_train_lmdb = os.path.join(g_feature_extraction_folder, 'train%s'%(perturb)) 
     path_to_test_lmdb = os.path.join(g_feature_extraction_folder, 'val%s'%(perturb))
-    prototxt_folder = os.path.join(g_view_aggregation_folder, 'fine_tuning%s'%(perturb))
+    prototxt_folder = os.path.join(g_view_aggregation_folder, 'pooling_early', 'fine_tuning%s'%(perturb))
     if not os.path.exists(prototxt_folder):
         os.makedirs(prototxt_folder)
     prototxt_filename = os.path.join(prototxt_folder, 'train_val.prototxt')

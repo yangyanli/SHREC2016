@@ -24,35 +24,11 @@ layer {
   }
   top: "data_view_xx_fc7"
 }
-layer {
-  name: "fc0_view_xx"
-  type: "InnerProduct"
-  bottom: "data_view_xx_fc7"
-  top: "fc0_view_xx"
-  param {
-    name: "fc0_view_w"
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    name: "fc0_view_b"
-    lr_mult: 2
-    decay_mult: 0
-  }
-  inner_product_param {
-    num_output: 1024 
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
+
 layer {
   name: "relu0_view_xx"
   type: "ReLU"
-  bottom: "fc0_view_xx"
+  bottom: "data_view_xx_fc7"
   top: "fc0_view_xx"
 }
 layer {
@@ -81,7 +57,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 512 
+    num_output: 4096 
     weight_filler {
       type: "xavier"
     }
@@ -107,27 +83,16 @@ layer {
 }
 
 layer {
-  name: "fc2_view_xx"
-  type: "InnerProduct"
+  name: "reshape_view_xx"
+  type: "Reshape"
   bottom: "fc1_view_xx"
-  top: "fc2_view_xx"
-  param {
-    name: "fc2_view_w"
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    name: "fc2_view_b"
-    lr_mult: 2
-    decay_mult: 0
-  }
-  inner_product_param {
-    num_output: 512 
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
+  top: "feature_view_xx"
+  reshape_param {
+    shape {
+      dim: 0
+      dim: 1
+      dim: 1
+      dim: -1
     }
   }
 }

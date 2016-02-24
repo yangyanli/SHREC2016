@@ -1,0 +1,40 @@
+layer {
+  name: "data_view_xx_fc7"
+  type: "Data"
+  include {
+    phase: TRAIN
+  }
+  data_param {
+    source: "PATH_TO_TRAIN_LMDB_view_xx_fc7_lmdb"
+    batch_size: TRAIN_BATCH_SIZE
+    backend: LMDB
+  }
+  top: "data_view_xx_fc7"
+}
+layer {
+  name: "data_view_xx_fc7"
+  type: "Data"
+  include {
+    phase: TEST
+  }
+  data_param {
+    source: "PATH_TO_TEST_LMDB_view_xx_fc7_lmdb"
+    batch_size: TEST_BATCH_SIZE
+    backend: LMDB
+  }
+  top: "data_view_xx_fc7"
+}
+layer {
+  name: "reshape_view_xx"
+  type: "Reshape"
+  bottom: "data_view_xx_fc7"
+  top: "feature_view_xx"
+  reshape_param {
+    shape {
+      dim: 0
+      dim: 1
+      dim: 1
+      dim: -1
+    }
+  }
+}

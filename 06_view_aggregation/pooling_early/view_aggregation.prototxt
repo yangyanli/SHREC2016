@@ -1,28 +1,39 @@
 layer {
   name: "view_aggregation"
   type: "Concat"
-  bottom: "fc2_view_00"
-  bottom: "fc2_view_01"
-  bottom: "fc2_view_02"
-  bottom: "fc2_view_03"
-  bottom: "fc2_view_04"
-  bottom: "fc2_view_05"
-  bottom: "fc2_view_06"
-  bottom: "fc2_view_07"
-  bottom: "fc2_view_08"
-  bottom: "fc2_view_09"
-  bottom: "fc2_view_10"
-  bottom: "fc2_view_11"
+  bottom: "feature_view_00"
+  bottom: "feature_view_01"
+  bottom: "feature_view_02"
+  bottom: "feature_view_03"
+  bottom: "feature_view_04"
+  bottom: "feature_view_05"
+  bottom: "feature_view_06"
+  bottom: "feature_view_07"
+  bottom: "feature_view_08"
+  bottom: "feature_view_09"
+  bottom: "feature_view_10"
+  bottom: "feature_view_11"
   top: "view_aggregation"
   concat_param {
-    axis: 1
+    axis: 2
+  }
+}
+
+layer {
+  name: "pooling_aggregation"
+  type: "Pooling"
+  bottom: "view_aggregation"
+  top: "pooling_aggregation"
+  pooling_param {
+    kernel_h: 12
+    kernel_w: 1
   }
 }
 
 layer {
   name: "fc0_aggregation"
   type: "InnerProduct"
-  bottom: "view_aggregation"
+  bottom: "pooling_aggregation"
   top: "fc0_aggregation"
   param {
     lr_mult: 1
@@ -33,7 +44,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 2048 
+    num_output: 4096 
     weight_filler {
       type: "xavier"
     }
@@ -72,7 +83,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 1024 
+    num_output: 4096 
     weight_filler {
       type: "xavier"
     }
