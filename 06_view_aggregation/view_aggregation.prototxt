@@ -132,7 +132,7 @@ layer {
     batch_size: TRAIN_BATCH_SIZE 
     backend: LMDB
   }
-  top: "suid"
+  top: "subid"
 }
 layer {
   name: "data_subid"
