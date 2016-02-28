@@ -66,27 +66,16 @@ layer {
 }
 
 layer {
-  name: "feature_view_xx"
-  type: "InnerProduct"
+  name: "reshape_view_xx"
+  type: "Reshape"
   bottom: "fc0_view_xx"
   top: "feature_view_xx"
-  param {
-    name: "feature_view_w"
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    name: "feature_view_b"
-    lr_mult: 2
-    decay_mult: 0
-  }
-  inner_product_param {
-    num_output: 512 
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
+  reshape_param {
+    shape {
+      dim: 0
+      dim: 1
+      dim: 1
+      dim: -1
     }
   }
 }
