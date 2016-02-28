@@ -67,3 +67,8 @@ g_feature_extraction_folder = os.path.abspath(os.path.join(ROOT, 'dataset_featur
 # View Aggregation
 ##############################################################################
 g_view_aggregation_folder = os.path.abspath(os.path.join(ROOT, 'dataset_view_aggregation'))
+
+##############################################################################
+# Shape Retrieval
+##############################################################################
+g_shape_retrieval_folder = os.path.abspath(os.path.join(ROOT, 'dataset_shape_retrieval'))

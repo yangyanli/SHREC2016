@@ -1,0 +1,81 @@
+layer {
+  name: "data_view_xx_pool5"
+  type: "Data"
+  include {
+    phase: TRAIN
+  }
+  data_param {
+    source: "PATH_TO_TRAIN_LMDB_view_xx_pool5_lmdb"
+    batch_size: TRAIN_BATCH_SIZE
+    backend: LMDB
+  }
+  top: "data_view_xx_pool5"
+}
+layer {
+  name: "data_view_xx_pool5"
+  type: "Data"
+  include {
+    phase: TEST
+  }
+  data_param {
+    source: "PATH_TO_TEST_LMDB_view_xx_pool5_lmdb"
+    batch_size: TEST_BATCH_SIZE
+    backend: LMDB
+  }
+  top: "data_view_xx_pool5"
+}
+layer {
+  name: "fc0_view_xx"
+  type: "InnerProduct"
+  bottom: "data_view_xx_pool5"
+  top: "fc0_view_xx"
+  param {
+    name: "fc0_view_w"
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    name: "fc0_view_b"
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2048 
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu0_view_xx"
+  type: "ReLU"
+  bottom: "fc0_view_xx"
+  top: "fc0_view_xx"
+}
+layer {
+  name: "drop0_view_xx"
+  type: "Dropout"
+  bottom: "fc0_view_xx"
+  top: "fc0_view_xx"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+
+layer {
+  name: "reshape_view_xx"
+  type: "Reshape"
+  bottom: "fc0_view_xx"
+  top: "feature_view_xx"
+  reshape_param {
+    shape {
+      dim: 0
+      dim: 1
+      dim: 1
+      dim: -1
+    }
+  }
+}
