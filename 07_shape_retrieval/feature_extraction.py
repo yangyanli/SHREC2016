@@ -13,6 +13,10 @@ sys.path.append(os.path.dirname(BASE_DIR))
 sys.path.append(os.path.join(os.path.dirname(BASE_DIR), 'utilities_python'))
 from utilities_caffe import *
 
+parser = argparse.ArgumentParser(description="Feature extraction.")
+parser.add_argument('-g', '--gpu_index', help='GPU to use', type=int, required=True)
+args = parser.parse_args()
+
 datasets = ['train', 'val', 'test']
 perturbs = ['', '_perturbed']
 features = ['fc_feature', 'fc_id', 'fc_subid']
@@ -22,6 +26,7 @@ view_num = 12
 
 for network in networks:
     for perturb in perturbs:
+        caffemodel_file = os.path.join(g_view_aggregation, 'fine_tuning%s'%(perturbed), 'best_model.caffemodel') 
         for dataset in datasets:
             view_prototxt_in = os.path.join(BASE_DIR, network, 'view.prototxt.in')
             view_prototxt_in_lines = [line for line in open(view_prototxt_in, 'r')]
@@ -42,3 +47,15 @@ for network in networks:
                     line = line.replace('PATH_TO_LMDB', path_to_lmdb)
                     line = line.replace('BATCH_SIZE', str(batch_size))
                     prototxt_file.write(line)
+            output_lmdbs = [os.path.join(prototxt_folder, '%s_lmdb'%(feature) for feature in features]
+            for output_lmdb in output_lmdbs:
+                if os.path.exists(output_lmdb):
+                    shutil.rmtree(output_lmdb)
+
+            extract_features(prototxt=prototxt_filename,
+                           caffemodel=caffemodel_file,
+                           features=features,
+                           output_lmdbs=output_lmdbs,
+                           sample_num=get_lmdb_size(path_to_lmdb+'_view_00_lmdb'),
+                           caffe_path=g_caffe_installation_path,
+                           gpu_index=args.gpu_index)
