@@ -1,29 +1,14 @@
 layer {
   name: "data_view_xx_pool5"
   type: "Data"
-  include {
-    phase: TRAIN
-  }
   data_param {
-    source: "PATH_TO_TRAIN_LMDB_view_xx_pool5_lmdb"
-    batch_size: TRAIN_BATCH_SIZE
+    source: "PATH_TO_LMDB_view_xx_pool5_lmdb"
+    batch_size: BATCH_SIZE
     backend: LMDB
   }
   top: "data_view_xx_pool5"
 }
-layer {
-  name: "data_view_xx_pool5"
-  type: "Data"
-  include {
-    phase: TEST
-  }
-  data_param {
-    source: "PATH_TO_TEST_LMDB_view_xx_pool5_lmdb"
-    batch_size: TEST_BATCH_SIZE
-    backend: LMDB
-  }
-  top: "data_view_xx_pool5"
-}
+
 layer {
   name: "fc0_view_xx"
   type: "InnerProduct"
