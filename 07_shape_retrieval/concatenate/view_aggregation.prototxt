@@ -261,10 +261,10 @@ layer {
 layer {
   name: "view_aggregation"
   type: "Concat"
-  bottom: "view_aggregation_00_01_02"
-  bottom: "view_aggregation_03_04_05"
-  bottom: "view_aggregation_06_07_08"
-  bottom: "view_aggregation_09_10_11"
+  bottom: "fc0_aggregation_00_01_02"
+  bottom: "fc0_aggregation_03_04_05"
+  bottom: "fc0_aggregation_06_07_08"
+  bottom: "fc0_aggregation_09_10_11"
   top: "view_aggregation"
   concat_param {
     axis: 1

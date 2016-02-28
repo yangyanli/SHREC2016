@@ -4,6 +4,7 @@
 import os
 import sys
 import shutil
+import argparse
 import fileinput
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -19,14 +20,15 @@ args = parser.parse_args()
 
 datasets = ['train', 'val', 'test']
 perturbs = ['', '_perturbed']
-features = ['fc_feature', 'fc_id', 'fc_subid']
-networks = ['pooling_early', 'concatenate', 'pooling_late']
+features = ['fc_feature', 'fc2_id', 'fc2_subid']
+#networks = ['pooling_early', 'concatenate', 'pooling_late']
+networks = ['pooling_early']
 batch_size = 512
 view_num = 12
 
 for network in networks:
     for perturb in perturbs:
-        caffemodel_file = os.path.join(g_view_aggregation, 'fine_tuning%s'%(perturbed), 'best_model.caffemodel') 
+        caffemodel_file = os.path.join(g_view_aggregation_folder, network, 'fine_tuning%s'%(perturb), 'best_model.caffemodel') 
         for dataset in datasets:
             view_prototxt_in = os.path.join(BASE_DIR, network, 'view.prototxt.in')
             view_prototxt_in_lines = [line for line in open(view_prototxt_in, 'r')]
@@ -47,7 +49,7 @@ for network in networks:
                     line = line.replace('PATH_TO_LMDB', path_to_lmdb)
                     line = line.replace('BATCH_SIZE', str(batch_size))
                     prototxt_file.write(line)
-            output_lmdbs = [os.path.join(prototxt_folder, '%s_lmdb'%(feature) for feature in features]
+            output_lmdbs = [os.path.join(prototxt_folder, '%s_lmdb'%(feature)) for feature in features]
             for output_lmdb in output_lmdbs:
                 if os.path.exists(output_lmdb):
                     shutil.rmtree(output_lmdb)
@@ -56,6 +58,6 @@ for network in networks:
                            caffemodel=caffemodel_file,
                            features=features,
                            output_lmdbs=output_lmdbs,
-                           sample_num=get_lmdb_size(path_to_lmdb+'_view_00_lmdb'),
+                           sample_num=get_lmdb_size(path_to_lmdb+'_view_00_pool5_lmdb'),
                            caffe_path=g_caffe_installation_path,
                            gpu_index=args.gpu_index)
