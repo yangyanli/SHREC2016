@@ -4,6 +4,7 @@
 import os
 import sys
 import shutil
+import argparse
 import fileinput
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -13,12 +14,17 @@ sys.path.append(os.path.dirname(BASE_DIR))
 sys.path.append(os.path.join(os.path.dirname(BASE_DIR), 'utilities_python'))
 from utilities_caffe import *
 
+parser = argparse.ArgumentParser(description="Feature extraction.")
+parser.add_argument('-g', '--gpu_index', help='GPU to use', type=int, required=True)
+parser.add_argument('-s', '--start_view', help='Start view', type=int, required=True)
+parser.add_argument('-e', '--end_view', help='End view', type=int, required=True)
+args = parser.parse_args()
+
 datasets = ['train', 'val', 'test']
 perturbs = ['', '_perturbed']
-features = ['fc7', 'subid']
-view_num = 12
+features = ['pool5', 'subid']
 
-for i in range(view_num):
+for i in range(args.start_view, args.end_view):
   for dataset in datasets:
     for perturb in perturbs:
       imagedb_folder = os.path.join(g_imgdb_building_folder, '%s_view_%02d_lmdb' % (dataset+perturb, i))
@@ -40,4 +46,4 @@ for i in range(view_num):
                            output_lmdbs=output_lmdbs,
                            sample_num=get_lmdb_size(imagedb_folder),
                            caffe_path=g_caffe_installation_path,
-                           gpu_index=1)
+                           gpu_index=args.gpu_index)

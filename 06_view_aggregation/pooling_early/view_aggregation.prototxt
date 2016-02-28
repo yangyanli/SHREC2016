@@ -109,9 +109,48 @@ layer {
 }
 
 layer {
-  name: "fc2_subid"
+  name: "fc_feature"
   type: "InnerProduct"
   bottom: "fc1_aggregation"
+  top: "fc_feature"
+  param {
+    lr_mult: 1
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 512 
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "relu_feature"
+  type: "ReLU"
+  bottom: "fc_feature"
+  top: "fc_feature"
+}
+layer {
+  name: "drop_feature"
+  type: "Dropout"
+  bottom: "fc_feature"
+  top: "fc_feature"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+
+layer {
+  name: "fc2_subid"
+  type: "InnerProduct"
+  bottom: "fc_feature"
   top: "fc2_subid"
   param {
     lr_mult: 1
@@ -180,7 +219,7 @@ layer {
 layer {
   name: "fc2_id"
   type: "InnerProduct"
-  bottom: "fc1_aggregation"
+  bottom: "fc_feature"
   top: "fc2_id"
   param {
     lr_mult: 1
