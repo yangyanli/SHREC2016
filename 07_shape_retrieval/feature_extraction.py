@@ -50,14 +50,14 @@ for network in networks:
                     line = line.replace('BATCH_SIZE', str(batch_size))
                     prototxt_file.write(line)
             output_lmdbs = [os.path.join(prototxt_folder, '%s_lmdb'%(feature)) for feature in features]
-            for output_lmdb in output_lmdbs:
-                if os.path.exists(output_lmdb):
-                    shutil.rmtree(output_lmdb)
+            #for output_lmdb in output_lmdbs:
+            #    if os.path.exists(output_lmdb):
+            #        shutil.rmtree(output_lmdb)
 
-            extract_features(prototxt=prototxt_filename,
-                           caffemodel=caffemodel_file,
-                           features=features,
-                           output_lmdbs=output_lmdbs,
-                           sample_num=get_lmdb_size(path_to_lmdb+'_view_00_pool5_lmdb'),
-                           caffe_path=g_caffe_installation_path,
-                           gpu_index=args.gpu_index)
+            #extract_features(prototxt=prototxt_filename, caffemodel=caffemodel_file,
+            #    features=features, output_lmdbs=output_lmdbs,
+            #    sample_num=get_lmdb_size(path_to_lmdb+'_view_00_pool5_lmdb'),
+            #    caffe_path=g_caffe_installation_path, gpu_index=args.gpu_index)
+
+            for output_lmdb in output_lmdbs:
+                lmdb_to_txt(output_lmdb, caffe_path=g_caffe_installation_path)
