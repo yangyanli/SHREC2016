@@ -12,7 +12,8 @@ train_batch_size = 512
 test_batch_size = 256
 view_num = 12
 perturbs = ['', '_perturbed']
-networks = ['pooling_early', 'concatenate', 'pooling_late']
+#networks = ['pooling_early', 'concatenate', 'pooling_late', 'concatenate_full']
+networks = ['concatenate_full']
 
 for network in networks:
     for perturb in perturbs:
