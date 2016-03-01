@@ -1,0 +1,20 @@
+\begin{thebibliography}{\uppercase{SMKLM15}}
+
+\bibitem[CTSO03]{chen2003visual}
+\textsc{Chen D.-Y., Tian X.-P., Shen Y.-T., Ouhyoung M.}:
+\newblock On visual similarity based 3d model retrieval.
+\newblock In \emph{Computer graphics forum} (2003), vol.~22, Wiley Online
+  Library, pp.~223--232.
+
+\bibitem[SMKLM15]{su2015multi}
+\textsc{Su H., Maji S., Kalogerakis E., Learned-Miller E.}:
+\newblock Multi-view convolutional neural networks for 3d shape recognition.
+\newblock In \emph{Proceedings of the IEEE International Conference on Computer
+  Vision} (2015), pp.~945--953.
+
+\bibitem[SZ14]{simonyan2014very}
+\textsc{Simonyan K., Zisserman A.}:
+\newblock Very deep convolutional networks for large-scale image recognition.
+\newblock \emph{arXiv preprint arXiv:1409.1556} (2014).
+
+\end{thebibliography}

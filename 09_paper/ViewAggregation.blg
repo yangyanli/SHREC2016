@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: ViewAggregation.aux
+The style file: eg-alpha-doi.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: ViewAggregation.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Warning--can't use both volume and number fields in chen2003visual
+You've used 3 entries,
+            3585 wiz_defined-function locations,
+            756 strings with 6269 characters,
+and the built_in function-call counts, 1864 in all, are:
+= -- 184
+> -- 81
+< -- 0
++ -- 30
+- -- 30
+* -- 122
+:= -- 288
+add.period$ -- 6
+call.type$ -- 3
+change.case$ -- 22
+chr.to.int$ -- 3
+cite$ -- 4
+duplicate$ -- 65
+empty$ -- 150
+format.name$ -- 33
+if$ -- 440
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 3
+newline$ -- 18
+num.names$ -- 9
+pop$ -- 35
+preamble$ -- 1
+purify$ -- 25
+quote$ -- 0
+skip$ -- 116
+stack$ -- 0
+substring$ -- 85
+swap$ -- 23
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 27
+warning$ -- 1
+while$ -- 15
+width$ -- 5
+write$ -- 39
+(There was 1 warning)
