@@ -11,7 +11,7 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--can't use both volume and number fields in chen2003visual
 You've used 3 entries,
             3585 wiz_defined-function locations,
-            756 strings with 6269 characters,
+            756 strings with 6195 characters,
 and the built_in function-call counts, 1864 in all, are:
 = -- 184
 > -- 81
