@@ -1,270 +1,18 @@
 layer {
-  name: "view_aggregation_00_01_02"
+  name: "view_aggregation"
   type: "Concat"
   bottom: "feature_view_00"
   bottom: "feature_view_01"
   bottom: "feature_view_02"
-  top: "view_aggregation_00_01_02"
-  concat_param {
-    axis: 2
-  }
-}
-
-layer {
-  name: "pooling_aggregation_00_01_02"
-  type: "Pooling"
-  bottom: "view_aggregation_00_01_02"
-  top: "pooling_aggregation_00_01_02"
-  pooling_param {
-    kernel_h: 3
-    kernel_w: 1
-  }
-}
-
-layer {
-  name: "fc0_aggregation_00_01_02"
-  type: "InnerProduct"
-  bottom: "pooling_aggregation_00_01_02"
-  top: "fc0_aggregation_00_01_02"
-  param {
-    name: "fc0_aggregation_3_views_w" 
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    name: "fc0_aggregation_3_views_b" 
-    lr_mult: 2
-    decay_mult: 0
-  }
-  inner_product_param {
-    num_output: 1024 
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  name: "relu0_aggregation_00_01_02"
-  type: "ReLU"
-  bottom: "fc0_aggregation_00_01_02"
-  top: "fc0_aggregation_00_01_02"
-}
-layer {
-  name: "drop0_aggregation_00_01_02"
-  type: "Dropout"
-  bottom: "fc0_aggregation_00_01_02"
-  top: "fc0_aggregation_00_01_02"
-  dropout_param {
-    dropout_ratio: 0.5
-  }
-}
-
-
-layer {
-  name: "view_aggregation_03_04_05"
-  type: "Concat"
   bottom: "feature_view_03"
   bottom: "feature_view_04"
   bottom: "feature_view_05"
-  top: "view_aggregation_03_04_05"
-  concat_param {
-    axis: 2
-  }
-}
-
-layer {
-  name: "pooling_aggregation_03_04_05"
-  type: "Pooling"
-  bottom: "view_aggregation_03_04_05"
-  top: "pooling_aggregation_03_04_05"
-  pooling_param {
-    kernel_h: 3
-    kernel_w: 1
-  }
-}
-
-layer {
-  name: "fc0_aggregation_03_04_05"
-  type: "InnerProduct"
-  bottom: "pooling_aggregation_03_04_05"
-  top: "fc0_aggregation_03_04_05"
-  param {
-    name: "fc0_aggregation_3_views_w" 
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    name: "fc0_aggregation_3_views_b" 
-    lr_mult: 2
-    decay_mult: 0
-  }
-  inner_product_param {
-    num_output: 1024 
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  name: "relu0_aggregation_03_04_05"
-  type: "ReLU"
-  bottom: "fc0_aggregation_03_04_05"
-  top: "fc0_aggregation_03_04_05"
-}
-layer {
-  name: "drop0_aggregation_03_04_05"
-  type: "Dropout"
-  bottom: "fc0_aggregation_03_04_05"
-  top: "fc0_aggregation_03_04_05"
-  dropout_param {
-    dropout_ratio: 0.5
-  }
-}
-
-
-layer {
-  name: "view_aggregation_06_07_08"
-  type: "Concat"
   bottom: "feature_view_06"
   bottom: "feature_view_07"
   bottom: "feature_view_08"
-  top: "view_aggregation_06_07_08"
-  concat_param {
-    axis: 2
-  }
-}
-
-layer {
-  name: "pooling_aggregation_06_07_08"
-  type: "Pooling"
-  bottom: "view_aggregation_06_07_08"
-  top: "pooling_aggregation_06_07_08"
-  pooling_param {
-    kernel_h: 3
-    kernel_w: 1
-  }
-}
-
-layer {
-  name: "fc0_aggregation_06_07_08"
-  type: "InnerProduct"
-  bottom: "pooling_aggregation_06_07_08"
-  top: "fc0_aggregation_06_07_08"
-  param {
-    name: "fc0_aggregation_3_views_w" 
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    name: "fc0_aggregation_3_views_b" 
-    lr_mult: 2
-    decay_mult: 0
-  }
-  inner_product_param {
-    num_output: 1024 
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  name: "relu0_aggregation_06_07_08"
-  type: "ReLU"
-  bottom: "fc0_aggregation_06_07_08"
-  top: "fc0_aggregation_06_07_08"
-}
-layer {
-  name: "drop0_aggregation_06_07_08"
-  type: "Dropout"
-  bottom: "fc0_aggregation_06_07_08"
-  top: "fc0_aggregation_06_07_08"
-  dropout_param {
-    dropout_ratio: 0.5
-  }
-}
-
-
-layer {
-  name: "view_aggregation_09_10_11"
-  type: "Concat"
   bottom: "feature_view_09"
   bottom: "feature_view_10"
   bottom: "feature_view_11"
-  top: "view_aggregation_09_10_11"
-  concat_param {
-    axis: 2
-  }
-}
-
-layer {
-  name: "pooling_aggregation_09_10_11"
-  type: "Pooling"
-  bottom: "view_aggregation_09_10_11"
-  top: "pooling_aggregation_09_10_11"
-  pooling_param {
-    kernel_h: 3
-    kernel_w: 1
-  }
-}
-
-layer {
-  name: "fc0_aggregation_09_10_11"
-  type: "InnerProduct"
-  bottom: "pooling_aggregation_09_10_11"
-  top: "fc0_aggregation_09_10_11"
-  param {
-    name: "fc0_aggregation_3_views_w" 
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    name: "fc0_aggregation_3_views_b" 
-    lr_mult: 2
-    decay_mult: 0
-  }
-  inner_product_param {
-    num_output: 1024 
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-layer {
-  name: "relu0_aggregation_09_10_11"
-  type: "ReLU"
-  bottom: "fc0_aggregation_09_10_11"
-  top: "fc0_aggregation_09_10_11"
-}
-layer {
-  name: "drop0_aggregation_09_10_11"
-  type: "Dropout"
-  bottom: "fc0_aggregation_09_10_11"
-  top: "fc0_aggregation_09_10_11"
-  dropout_param {
-    dropout_ratio: 0.5
-  }
-}
-
-
-layer {
-  name: "view_aggregation"
-  type: "Concat"
-  bottom: "fc0_aggregation_00_01_02"
-  bottom: "fc0_aggregation_03_04_05"
-  bottom: "fc0_aggregation_06_07_08"
-  bottom: "fc0_aggregation_09_10_11"
   top: "view_aggregation"
   concat_param {
     axis: 1
@@ -311,10 +59,10 @@ layer {
 }
 
 layer {
-  name: "fc1_aggregation"
+  name: "fc_feature"
   type: "InnerProduct"
   bottom: "fc0_aggregation"
-  top: "fc1_aggregation"
+  top: "fc_feature"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -334,26 +82,26 @@ layer {
   }
 }
 layer {
-  name: "relu1_aggregation"
+  name: "relu_feature"
   type: "ReLU"
-  bottom: "fc1_aggregation"
-  top: "fc1_aggregation"
+  bottom: "fc_feature"
+  top: "fc_feature"
 }
 layer {
-  name: "drop1_aggregation"
+  name: "drop_feature"
   type: "Dropout"
-  bottom: "fc1_aggregation"
-  top: "fc1_aggregation"
+  bottom: "fc_feature"
+  top: "fc_feature"
   dropout_param {
     dropout_ratio: 0.5
   }
 }
 
 layer {
-  name: "fc2_subid"
+  name: "fc_subid"
   type: "InnerProduct"
-  bottom: "fc1_aggregation"
-  top: "fc2_subid"
+  bottom: "fc_feature"
+  top: "fc_subid"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -402,14 +150,14 @@ layer {
 layer {
   name: "loss_subid"
   type: "SoftmaxWithLoss"
-  bottom: "fc2_subid"
+  bottom: "fc_subid"
   bottom: "subid"
   top: "loss/loss_subid"
 }
 layer {
   name: "accuracy/top1_subid"
   type: "Accuracy"
-  bottom: "fc2_subid"
+  bottom: "fc_subid"
   bottom: "subid"
   top: "accuracy@1_subid"
   include: { phase: TEST }
@@ -419,10 +167,10 @@ layer {
 }
 
 layer {
-  name: "fc2_id"
+  name: "fc_id"
   type: "InnerProduct"
-  bottom: "fc1_aggregation"
-  top: "fc2_id"
+  bottom: "fc_feature"
+  top: "fc_id"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -471,14 +219,14 @@ layer {
 layer {
   name: "loss_id"
   type: "SoftmaxWithLoss"
-  bottom: "fc2_id"
+  bottom: "fc_id"
   bottom: "id"
   top: "loss/loss_id"
 }
 layer {
   name: "accuracy/top1_id"
   type: "Accuracy"
-  bottom: "fc2_id"
+  bottom: "fc_id"
   bottom: "id"
   top: "accuracy@1_id"
   include: { phase: TEST }

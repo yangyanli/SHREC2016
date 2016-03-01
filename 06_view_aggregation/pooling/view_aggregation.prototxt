@@ -148,10 +148,10 @@ layer {
 }
 
 layer {
-  name: "fc2_subid"
+  name: "fc_subid"
   type: "InnerProduct"
   bottom: "fc_feature"
-  top: "fc2_subid"
+  top: "fc_subid"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -172,10 +172,55 @@ layer {
   }
 }
 layer {
-  name: "fc2_id"
+  name: "data_subid"
+  type: "Data"
+  include {
+    phase: TRAIN
+  }
+  data_param {
+    source: "PATH_TO_TRAIN_LMDB_view_00_subid_lmdb"
+    batch_size: TRAIN_BATCH_SIZE 
+    backend: LMDB
+  }
+  top: "subid"
+}
+layer {
+  name: "data_subid"
+  type: "Data"
+  include {
+    phase: TEST
+  }
+  data_param {
+    source: "PATH_TO_TEST_LMDB_view_00_subid_lmdb"
+    batch_size: TEST_BATCH_SIZE 
+    backend: LMDB
+  }
+  top: "subid"
+}
+layer {
+  name: "loss_subid"
+  type: "SoftmaxWithLoss"
+  bottom: "fc_subid"
+  bottom: "subid"
+  top: "loss/loss_subid"
+}
+layer {
+  name: "accuracy/top1_subid"
+  type: "Accuracy"
+  bottom: "fc_subid"
+  bottom: "subid"
+  top: "accuracy@1_subid"
+  include: { phase: TEST }
+  accuracy_param {
+    top_k: 1
+  }
+}
+
+layer {
+  name: "fc_id"
   type: "InnerProduct"
   bottom: "fc_feature"
-  top: "fc2_id"
+  top: "fc_id"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -195,4 +240,47 @@ layer {
     }
   }
 }
-
+layer {
+  name: "data_id"
+  type: "Data"
+  include {
+    phase: TRAIN
+  }
+  data_param {
+    source: "PATH_TO_TRAIN_LMDB_view_00_id_lmdb"
+    batch_size: TRAIN_BATCH_SIZE 
+    backend: LMDB
+  }
+  top: "id"
+}
+layer {
+  name: "data_id"
+  type: "Data"
+  include {
+    phase: TEST
+  }
+  data_param {
+    source: "PATH_TO_TEST_LMDB_view_00_id_lmdb"
+    batch_size: TEST_BATCH_SIZE 
+    backend: LMDB
+  }
+  top: "id"
+}
+layer {
+  name: "loss_id"
+  type: "SoftmaxWithLoss"
+  bottom: "fc_id"
+  bottom: "id"
+  top: "loss/loss_id"
+}
+layer {
+  name: "accuracy/top1_id"
+  type: "Accuracy"
+  bottom: "fc_id"
+  bottom: "id"
+  top: "accuracy@1_id"
+  include: { phase: TEST }
+  accuracy_param {
+    top_k: 1
+  }
+}
