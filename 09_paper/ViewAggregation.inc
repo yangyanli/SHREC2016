@@ -16,7 +16,7 @@ $^1$Tel Aviv University, Israel \qquad $^2$Shandong University, China\vspace{-2c
 
 \teaser{
 \vspace{-0.5cm}
-\includegraphics[width=0.9\linewidth]{cnn_architectures}
+\includegraphics[width=0.85\linewidth]{cnn_architectures}
 \centering
 \caption{CNN architectures for extracting 3D model signatures by aggregating CNN features of multi-view images rendered from 3D models. Multi-view CNN features are aggregated by concatenating per-view features when consistent 3D model orientation is available (left), or by max-pooling when model orientations are unknown (right).}
 \label{fig:cnn_architectures}
@@ -36,7 +36,7 @@ Following~\cite{su2015multi}, we represent a 3D model signature with CNN feature
 
 In this approach, the aggregation of CNN features from different views is key. In~\cite{su2015multi}, the view features are aggregated via max-pooling, such that all views are equally contributive. This approach is therefore oblivious to the manner in which rendering views are chosen. This is an advantage when models within a collection are arbitrarily oriented, but a disadvantage when a consistent alignment is provided. An aggregation method that is consistency-aware is likely to outperform its oblivious counterpart in this instance. Thus, when a consistent shape alignment is given, instead of aggregation via max-pooling, we aggregate multi-view CNN features by concatenating view-specific features in-order. Here, the fully-connected layers can leverage the correspondence that exists between renders from consistent viewpoints across different shapes, and make decisions based on a more holistic understanding of the various viewpoints. See Figure~\ref{fig:cnn_architectures} for a visual representation of the two CNN architectures employed in our approach.
 
-More specifically, we render each model from 12 evenly spaced viewpoints, and fine-tune the VGG-19 network~\cite{simonyan2014very} for the convolutional layers that are used for view feature extraction. We open source our code at \url{http://yangyanli.github.io/SHREC2016/}.
+More specifically, we render each model from 12 evenly spaced viewpoints, and fine-tune the VGG-19 network~\cite{simonyan2014very} for the convolutional layers that are used for view feature extraction. We use the concatenation of the category and sub-category classification probability vector as the 3D model signature for retrieval. We open source our code at \url{http://yangyanli.github.io/SHREC2016/}.
 
 %-------------------------------------------------------------------------
 %\bibliographystyle{eg-alpha}

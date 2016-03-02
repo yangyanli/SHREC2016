@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  1 MAR 2016 22:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  2 MAR 2016 10:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -333,7 +333,7 @@ File: cnn_architectures.png Graphic file (type png)
 
 <use cnn_architectures.png>
 Package pdftex.def Info: cnn_architectures.png used on input line 26.
-(pdftex.def)             Requested size: 453.59692pt x 214.42818pt.
+(pdftex.def)             Requested size: 428.40308pt x 202.51636pt.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 26.
  (./ViewAggregation.bbl (./ViewAggregation.brf)
@@ -369,7 +369,7 @@ texlive/2015/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf
 -dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on ViewAggregation.pdf (1 page, 666850 bytes).
+Output written on ViewAggregation.pdf (1 page, 666919 bytes).
 PDF statistics:
  54 PDF objects out of 1000 (max. 8388607)
  43 compressed objects within 1 object stream
