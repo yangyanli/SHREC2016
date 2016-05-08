@@ -54,7 +54,7 @@ layer {
   bottom: "fc0_aggregation"
   top: "fc0_aggregation"
   dropout_param {
-    dropout_ratio: 0.5
+    dropout_ratio: 0.25
   }
 }
 

@@ -25,9 +25,18 @@ layer {
   top: "data_view_xx_pool5"
 }
 layer {
+  name: "drop_view_xx_pool5"
+  type: "Dropout"
+  bottom: "data_view_xx_pool5"
+  top: "view_xx_pool5"
+  dropout_param {
+    dropout_ratio: 0.15
+  }
+}
+layer {
   name: "fc0_view_xx"
   type: "InnerProduct"
-  bottom: "data_view_xx_pool5"
+  bottom: "view_xx_pool5"
   top: "fc0_view_xx"
   param {
     name: "fc0_view_w"
