@@ -36,10 +36,11 @@ def _view_pooling(view_features):
     else:
       assert(label == datum.label)
       array = np.maximum(array, datum_np_array)
-  return caffe.io.array_to_datum(array.astype(float), label).SerializeToString()
+  datum = caffe.io.array_to_datum(array.astype(float), label)
+  return datum.SerializeToString()
 
-datasets = ['train', 'val', 'test']
-perturbs = ['', '_perturbed']
+datasets = ['val', 'test', 'train']
+perturbs = ['_perturbed', '']
 features = ['pool5']
 view_num = 12
 
@@ -56,7 +57,7 @@ for dataset in datasets:
         lmdb_view_folder = os.path.join(g_feature_extraction_folder, '%s_view_%02d_%s_lmdb'%(dataset+perturb,view_idx,feature))
         env_views.append(lmdb.open(lmdb_view_folder, readonly=True))      
         cursor_views.append(env_views[-1].begin().cursor())
-        cursor_views[-1].iternext()
+        cursor_views[-1].next()
 
       lmdb_size = get_lmdb_size(lmdb_view_folder)
       array_idx_list = []
@@ -70,24 +71,22 @@ for dataset in datasets:
         key_list = []
 
         for j in range(count):
-          value = cursor_views[0].value()
-          key = cursor_views[0].key()
-          view_features_list.append([value])
-          key_list.append(key)
-          cursor_views[0].iternext()
+          view_features_list.append([cursor_views[0].value()])
+          key_list.append(cursor_views[0].key())
+          cursor_views[0].next()
         for view_idx in range(1, view_num):
           for j in range(count):
             view_features_list[j].append(cursor_views[view_idx].value())
             assert(key_list[j] == cursor_views[view_idx].key())
-            cursor_views[view_idx].iternext()
+            cursor_views[view_idx].next()
             
-        if (len(key_list) != 0) and ((i+1)%args.batch_size == 0 or i == lmdb_size-1):
-          datum_strings = pool.map(_view_pooling, view_features_list)
-          with env.begin(write=True) as txn:
-            for idx in range(len(datum_strings)):
-              txn.put(key_list[idx], datum_strings[idx])
-          view_features_list = []
-          key_list = []
+        datum_strings = pool.map(_view_pooling, view_features_list)
+        with env.begin(write=True) as txn:
+          for idx in range(len(datum_strings)):
+            #print key_list[idx], len(datum_strings[idx])
+            txn.put(key_list[idx], datum_strings[idx])
+        view_features_list = []
+        key_list = []
 
       for view_idx in range(view_num):
         cursor_views[view_idx].close()
